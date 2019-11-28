@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>todolist</title>
+	<style>
+	   a { 
+		text-decoration: none; /* Отменяем подчеркивание у ссылки */
+	   } 
+	</style>
+</head>
+<body link="black" vlink="black">
+	<div id="spis">
+	<p style="text-align:center"><span style="font-size:48px"><span style="font-family:Comic Sans MS,cursive">Список дел</span></p>
+	</div>
+
+<div class="head">
+	<form action="{% url 'add' %}"  method="POST">
+		{% csrf_token %}
+		<p style="text-align:center">{{ form.text }}
+		<button type="submit">Добавить</button></p>
+	</form>
+	<form action="{% url 'deletecomplete' %}">
+		{% csrf_token %}
+		<p style="text-align:center"><button type="submit">Удалить выполненные</button></p>
+	</form>
+</div>
+
+<hr />
+	<div id="list">
+		<ul>
+			{% for todo in todo_list %}
+				{% if todo.complete %}
+					<a href="{% url 'dcomplete' todo.id %}"><li style="text-align: center;"><p><span style="font-size:26px"><span style="font-family:Comic Sans MS,cursive"><del>{{ todo.text }}</del></span></span></p></li></a>
+				{% else %}
+					<a href="{% url 'complete' todo.id %}"><li style="text-align: center;"><p><span style="font-size:26px"><span style="font-family:Comic Sans MS,cursive">{{ todo.text }}</span></span></p></li></a>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>
