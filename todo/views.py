@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
+from rest_framework import viewsets
+
 from .models import Todo
 from .forms import TodoForm
+from .serializers import TodoSerializer
 
 def index(request):
     form = TodoForm()
@@ -33,3 +36,6 @@ def deleteComp(request):
     Todo.objects.filter(complete__exact=True).delete()
     return redirect('index')
     
+class TodoView(viewsets.ModelViewSet):
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
